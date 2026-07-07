@@ -1,0 +1,15 @@
+export const WEIGHTS = {
+  MASTERY_CORRECT: 1.0,
+  MASTERY_WRONG: -0.5,
+  MASTERY_BLANK: -0.1,
+  
+  PRIORITY_MASTERY_INVERSE: 0.4,
+  PRIORITY_MISTAKE_FREQ: 0.2,
+  PRIORITY_IMPORTANCE: 0.3,
+  PRIORITY_DEPENDENCY: 0.1,
+
+  RECENT_PERFORMANCE_DECAY: 0.8, // How much to weigh older performances (exponential decay)
+};
+
+export const MAX_STUDY_HOURS_PER_DAY = 2;
+export const MINUTES_PER_TASK = 30;

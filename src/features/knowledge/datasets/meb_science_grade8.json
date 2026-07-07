@@ -1,0 +1,206 @@
+[
+  {
+    "id": "u1",
+    "name": "Mevsimler ve İklim",
+    "gradeLevel": 8,
+    "subject": "Science",
+    "topics": [
+      {
+        "id": "t1_1",
+        "unitId": "u1",
+        "name": "Mevsimlerin Oluşumu",
+        "subtopics": [
+          {
+            "id": "st1_1_1",
+            "name": "Dünya'nın Dönme Ekseni",
+            "learningOutcomes": [
+              { "id": "lo1", "description": "Mevsimlerin oluşumuna yönelik tahminlerde bulunur." }
+            ]
+          }
+        ],
+        "difficulty": 2,
+        "importance": 4,
+        "estimatedStudyMinutes": 60,
+        "prerequisites": [],
+        "relatedTopics": ["t1_2"],
+        "tags": ["mevsimler", "dünya", "güneş"]
+      },
+      {
+        "id": "t1_2",
+        "unitId": "u1",
+        "name": "İklim ve Hava Hareketleri",
+        "subtopics": [
+          {
+            "id": "st1_2_1",
+            "name": "İklim ve Hava Olayları Arasındaki Farklar",
+            "learningOutcomes": [
+              { "id": "lo2", "description": "İklim ve hava olayları arasındaki farkı açıklar." }
+            ]
+          }
+        ],
+        "difficulty": 2,
+        "importance": 3,
+        "estimatedStudyMinutes": 45,
+        "prerequisites": ["t1_1"],
+        "relatedTopics": [],
+        "tags": ["iklim", "hava durumu"]
+      }
+    ]
+  },
+  {
+    "id": "u2",
+    "name": "DNA ve Genetik Kod",
+    "gradeLevel": 8,
+    "subject": "Science",
+    "topics": [
+      {
+        "id": "t2_1",
+        "unitId": "u2",
+        "name": "DNA ve Genetik Kod",
+        "subtopics": [
+          {
+            "id": "st2_1_1",
+            "name": "DNA'nın Yapısı",
+            "learningOutcomes": [
+              { "id": "lo3", "description": "Nükleotid, gen, DNA ve kromozom kavramlarını açıklayarak aralarındaki ilişkiyi kurar." }
+            ]
+          }
+        ],
+        "difficulty": 4,
+        "importance": 5,
+        "estimatedStudyMinutes": 90,
+        "prerequisites": [],
+        "relatedTopics": ["t2_2"],
+        "tags": ["dna", "genetik", "biyoloji"]
+      },
+      {
+        "id": "t2_2",
+        "unitId": "u2",
+        "name": "Kalıtım",
+        "subtopics": [
+          {
+            "id": "st2_2_1",
+            "name": "Çaprazlama",
+            "learningOutcomes": [
+              { "id": "lo4", "description": "Tek karakter çaprazlamaları ile ilgili problemler çözer." }
+            ]
+          }
+        ],
+        "difficulty": 5,
+        "importance": 5,
+        "estimatedStudyMinutes": 120,
+        "prerequisites": ["t2_1"],
+        "relatedTopics": ["t2_3"],
+        "tags": ["kalıtım", "mendel", "genetik"]
+      },
+      {
+        "id": "t2_3",
+        "unitId": "u2",
+        "name": "Mutasyon ve Modifikasyon",
+        "subtopics": [
+          {
+            "id": "st2_3_1",
+            "name": "Mutasyon Kavramı",
+            "learningOutcomes": [
+              { "id": "lo5", "description": "Mutasyon ve modifikasyon arasındaki farkı açıklar." }
+            ]
+          }
+        ],
+        "difficulty": 3,
+        "importance": 3,
+        "estimatedStudyMinutes": 45,
+        "prerequisites": ["t2_1"],
+        "relatedTopics": ["t2_2", "t2_4"],
+        "tags": ["mutasyon", "modifikasyon"]
+      },
+      {
+        "id": "t2_4",
+        "unitId": "u2",
+        "name": "Adaptasyon (Çevreye Uyum)",
+        "subtopics": [
+          {
+            "id": "st2_4_1",
+            "name": "Adaptasyon Örnekleri",
+            "learningOutcomes": [
+              { "id": "lo6", "description": "Canlıların yaşadıkları çevreye uyumlarını gözlemleyerek açıklar." }
+            ]
+          }
+        ],
+        "difficulty": 2,
+        "importance": 3,
+        "estimatedStudyMinutes": 40,
+        "prerequisites": ["t2_3"],
+        "relatedTopics": [],
+        "tags": ["adaptasyon", "evrim"]
+      }
+    ]
+  },
+  {
+    "id": "u3",
+    "name": "Basınç",
+    "gradeLevel": 8,
+    "subject": "Science",
+    "topics": [
+      {
+        "id": "t3_1",
+        "unitId": "u3",
+        "name": "Katı Basıncı",
+        "subtopics": [
+          {
+            "id": "st3_1_1",
+            "name": "Katılarda Basıncı Etkileyen Değişkenler",
+            "learningOutcomes": [
+              { "id": "lo7", "description": "Katı basıncını etkileyen değişkenleri deneyerek keşfeder." }
+            ]
+          }
+        ],
+        "difficulty": 3,
+        "importance": 4,
+        "estimatedStudyMinutes": 60,
+        "prerequisites": [],
+        "relatedTopics": ["t3_2"],
+        "tags": ["basınç", "katı", "fizik"]
+      },
+      {
+        "id": "t3_2",
+        "unitId": "u3",
+        "name": "Sıvı Basıncı",
+        "subtopics": [
+          {
+            "id": "st3_2_1",
+            "name": "Sıvı Basıncını Etkileyen Değişkenler",
+            "learningOutcomes": [
+              { "id": "lo8", "description": "Sıvı basıncını etkileyen değişkenleri tahmin eder ve tahminlerini test eder." }
+            ]
+          }
+        ],
+        "difficulty": 4,
+        "importance": 4,
+        "estimatedStudyMinutes": 75,
+        "prerequisites": ["t3_1"],
+        "relatedTopics": ["t3_3"],
+        "tags": ["basınç", "sıvı", "fizik"]
+      },
+      {
+        "id": "t3_3",
+        "unitId": "u3",
+        "name": "Gaz Basıncı",
+        "subtopics": [
+          {
+            "id": "st3_3_1",
+            "name": "Açık Hava Basıncı",
+            "learningOutcomes": [
+              { "id": "lo9", "description": "Gazların basıncını gözlemleyerek açıklar." }
+            ]
+          }
+        ],
+        "difficulty": 4,
+        "importance": 3,
+        "estimatedStudyMinutes": 60,
+        "prerequisites": ["t3_2"],
+        "relatedTopics": ["t3_1"],
+        "tags": ["basınç", "gaz", "fizik"]
+      }
+    ]
+  }
+]

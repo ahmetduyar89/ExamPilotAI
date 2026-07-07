@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-danger: var(--danger);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-background: var(--background);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-muted: var(--muted);
+  
+  /* Font Families - Prioritizing Apple native feel */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Radius - Apple-like rounded corners */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+
+  /* Shadows - Smooth, layered shadows for depth */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.08);
+}
+
+@layer base {
+  :root {
+    /* Light Mode Tokens (Linear / Apple Health inspired) */
+    --primary: #000000;
+    --primary-foreground: #ffffff;
+    
+    --secondary: #f4f4f5;
+    --secondary-foreground: #18181b;
+    
+    --success: #34c759;
+    --success-foreground: #ffffff;
+    
+    --warning: #ffcc00;
+    --warning-foreground: #000000;
+    
+    --danger: #ff3b30;
+    --danger-foreground: #ffffff;
+    
+    --background: #f9f9fb;
+    --card: #ffffff;
+    --border: #e5e5ea;
+    
+    --text-primary: #1c1c1e;
+    --text-secondary: #8e8e93;
+    
+    --muted: #f2f2f7;
+  }
+ 
+  .dark {
+    /* Dark Mode Tokens (Linear / Arc inspired) */
+    --primary: #ffffff;
+    --primary-foreground: #000000;
+    
+    --secondary: #2c2c2e;
+    --secondary-foreground: #f2f2f7;
+    
+    --success: #32d74b;
+    --success-foreground: #000000;
+    
+    --warning: #ffd60a;
+    --warning-foreground: #000000;
+    
+    --danger: #ff453a;
+    --danger-foreground: #ffffff;
+    
+    --background: #000000;
+    --card: #1c1c1e;
+    --border: #38383a;
+    
+    --text-primary: #ffffff;
+    --text-secondary: #8e8e93;
+    
+    --muted: #1c1c1e;
+  }
+}
+ 
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  /* Typography Scale */
+  .text-display {
+    @apply text-5xl font-bold tracking-tighter leading-tight font-display;
+  }
+  .text-h1 {
+    @apply text-4xl font-bold tracking-tight leading-tight font-display;
+  }
+  .text-h2 {
+    @apply text-2xl font-semibold tracking-tight leading-snug font-display;
+  }
+  .text-h3 {
+    @apply text-xl font-semibold tracking-tight leading-snug font-display;
+  }
+  .text-body {
+    @apply text-base font-normal leading-relaxed text-text-primary;
+  }
+  .text-caption {
+    @apply text-sm font-normal text-text-secondary;
+  }
+  .text-small {
+    @apply text-xs font-medium text-text-secondary;
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+

@@ -1,0 +1,95 @@
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
+import { ThemeProvider } from '@/components/ThemeProvider'
+import AppLayout from '@/components/layout/AppLayout'
+
+// Pages
+import Splash from '@/pages/Splash'
+import Onboarding from '@/pages/Onboarding'
+import Login from '@/pages/Login'
+import Register from '@/pages/Register'
+import Dashboard from '@/pages/Dashboard'
+import Students from '@/pages/Students'
+import ExamUpload from '@/pages/ExamUpload'
+import Analytics from '@/pages/Analytics'
+import StudyPlan from '@/pages/StudyPlan'
+import Profile from '@/pages/Profile'
+import Settings from '@/pages/Settings'
+import Processing from '@/pages/Processing'
+import Inspector from '@/pages/Inspector'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Splash />
+  },
+  {
+    path: '/onboarding',
+    element: <Onboarding />
+  },
+  {
+    path: '/login',
+    element: <Login />
+  },
+  {
+    path: '/register',
+    element: <Register />
+  },
+  {
+    element: <AppLayout />,
+    children: [
+      {
+        path: '/dashboard',
+        element: <Dashboard />
+      },
+      {
+        path: '/students',
+        element: <Students />
+      },
+      {
+        path: '/exams/upload',
+        element: <ExamUpload />
+      },
+      {
+        path: '/processing/:sessionId',
+        element: <Processing />
+      },
+      {
+        path: '/inspector/:intakeId',
+        element: <Inspector />
+      },
+      {
+        path: '/analytics',
+        element: <Analytics />
+      },
+      {
+        path: '/study-plan',
+        element: <StudyPlan />
+      },
+      {
+        path: '/profile',
+        element: <Profile />
+      },
+      {
+        path: '/settings',
+        element: <Settings />
+      },
+    ]
+  },
+  {
+    path: '*',
+    element: <Navigate to="/" replace />
+  }
+])
+
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from '@/lib/react-query'
+
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </QueryClientProvider>
+  )
+}
