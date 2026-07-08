@@ -29,7 +29,7 @@ export const studentRepo = {
     await new Promise(resolve => setTimeout(resolve, 500));
     const existing = await getRepo().findById(id);
     if (!existing) throw new Error('Student not found');
-    
+
     const updatedStudent = { ...existing, ...data };
     return getRepo().save(updatedStudent);
   },

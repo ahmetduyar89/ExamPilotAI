@@ -1,172 +1,171 @@
-import * as React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { UploadCard } from '@/features/exam/components/UploadCard';
-import { UploadProgress } from '@/features/exam/components/UploadProgress';
-import { useStudents } from '@/features/student/hooks';
-import { useCreateExam } from '@/features/exam/hooks';
-import { useStartProcessing } from '@/features/document/hooks';
-import { useNavigate } from 'react-router-dom';
-import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import * as React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Camera, ImageIcon, FileText, Check, ChevronRight, X } from 'lucide-react'
+import { students } from '@/mocks/data'
+import { Button } from '@/components/ui/Button'
+import { cn } from '@/utils/cn'
+
+const sources = [
+  { id: 'camera', label: 'Take photo', hint: 'Use the camera', icon: Camera },
+  { id: 'library', label: 'Photo library', hint: 'JPG or PNG', icon: ImageIcon },
+  { id: 'file', label: 'Upload file', hint: 'PDF document', icon: FileText },
+]
 
 export default function ExamUpload() {
-  const { data: students, isLoading: isLoadingStudents } = useStudents();
-  const createExam = useCreateExam();
-  const startProcessing = useStartProcessing();
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+  const [studentId, setStudentId] = React.useState(students[0].id)
+  const [publisher, setPublisher] = React.useState('Apotemi')
+  const [examName, setExamName] = React.useState('Science Practice Test 4')
+  const [attached, setAttached] = React.useState<string | null>('answer-sheet.jpg')
 
-  const [studentId, setStudentId] = React.useState('');
-  const [publisher, setPublisher] = React.useState('');
-  const [examName, setExamName] = React.useState('');
-  const [examDate, setExamDate] = React.useState('');
-
-  const [selectedFile, setSelectedFile] = React.useState<{ data: string; type: 'image' | 'pdf'; name: string } | null>(null);
-  const [uploadError, setUploadError] = React.useState<string | null>(null);
-  const [isSuccess, setIsSuccess] = React.useState(false);
-
-  const canUpload = studentId && publisher && examName && examDate;
-
-  const handleFileSelected = async (file: { data: string; type: 'image' | 'pdf'; name: string }) => {
-    setUploadError(null);
-    setSelectedFile(file);
-    setIsSuccess(false);
-    
-    try {
-      const exam = await createExam.mutateAsync({
-        studentId,
-        publisher,
-        examName,
-        examDate,
-        fileType: file.type,
-        imageUrl: file.data, // Storing base64 as mock url
-      });
-      
-      const session = await startProcessing.mutateAsync({
-        studentId,
-        examId: exam.id,
-        originalFile: file.data,
-        documentType: file.type === 'pdf' ? 'pdf' : 'scan',
-      });
-      
-      setIsSuccess(true);
-      // Navigate to processing screen
-      setTimeout(() => {
-        navigate(`/processing/${session.id}`);
-      }, 1500);
-    } catch (err) {
-      setUploadError('Failed to upload exam. Please try again.');
-      setSelectedFile(null);
-    }
-  };
-
-  const resetForm = () => {
-    setPublisher('');
-    setExamName('');
-    setExamDate('');
-    setSelectedFile(null);
-    setIsSuccess(false);
-  };
+  const canAnalyze = !!studentId && !!examName && !!attached
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <h1 className="text-3xl font-bold">Upload Exam</h1>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="space-y-7"
+    >
+      <header>
+        <h1 className="font-display text-[28px] font-semibold leading-tight tracking-tight">Upload exam</h1>
+        <p className="mt-1 text-sm text-text-secondary">Add an answer sheet to analyze in seconds.</p>
+      </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Exam Details Form */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Exam Details</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-text-primary">Student</label>
-              <select 
-                className="flex h-11 w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm text-text-primary outline-none transition-colors focus:border-primary disabled:cursor-not-allowed disabled:opacity-50"
-                value={studentId}
-                onChange={(e) => setStudentId(e.target.value)}
-                disabled={isLoadingStudents || createExam.isPending}
+      {/* Student picker */}
+      <section className="space-y-3">
+        <p className="px-1 text-sm font-medium text-text-secondary">Student</p>
+        <div className="flex gap-2.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {students.map((s) => {
+            const active = s.id === studentId
+            return (
+              <button
+                key={s.id}
+                onClick={() => setStudentId(s.id)}
+                className={cn(
+                  'flex shrink-0 items-center gap-2.5 rounded-2xl border px-3.5 py-2.5 transition-all duration-300',
+                  active ? 'border-primary bg-primary text-primary-foreground shadow-sm' : 'border-border/70 bg-card text-text-primary'
+                )}
               >
-                <option value="" disabled>Select a student</option>
-                {students?.map(s => (
-                  <option key={s.id} value={s.id}>{s.name} ({s.grade})</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-text-primary">Publisher</label>
-              <Input 
-                placeholder="e.g. College Board" 
-                value={publisher}
-                onChange={(e) => setPublisher(e.target.value)}
-                disabled={createExam.isPending}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-text-primary">Exam Name</label>
-              <Input 
-                placeholder="e.g. Practice Test 1" 
-                value={examName}
-                onChange={(e) => setExamName(e.target.value)}
-                disabled={createExam.isPending || startProcessing.isPending}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-text-primary">Date Taken</label>
-              <Input 
-                type="date"
-                value={examDate}
-                onChange={(e) => setExamDate(e.target.value)}
-                disabled={createExam.isPending || startProcessing.isPending}
-              />
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Upload Section */}
-        <div className="space-y-6">
-          <div className={!canUpload ? 'opacity-50 pointer-events-none' : ''}>
-            <h3 className="text-h3 mb-4">Upload Document</h3>
-            {!canUpload && (
-              <p className="text-sm text-text-secondary mb-4">Please fill in exam details before uploading.</p>
-            )}
-            
-            {!selectedFile && !isSuccess && (
-              <UploadCard 
-                onFileSelected={handleFileSelected} 
-                onError={setUploadError} 
-              />
-            )}
-
-            {selectedFile && !isSuccess && (
-              <UploadProgress 
-                fileName={selectedFile.name} 
-                isComplete={false} 
-              />
-            )}
-
-            {isSuccess && selectedFile && (
-              <div className="flex flex-col items-center justify-center p-8 bg-success/10 text-success rounded-xl border border-success/20 animate-in zoom-in">
-                <CheckCircle2 className="w-16 h-16 mb-4" />
-                <h3 className="text-xl font-bold">Upload Successful!</h3>
-                <p className="text-sm mt-2 text-center opacity-80">
-                  The exam for {students?.find(s => s.id === studentId)?.name} has been securely saved.
-                </p>
-              </div>
-            )}
-          </div>
-
-          {uploadError && (
-            <div className="flex items-center p-4 bg-danger/10 text-danger rounded-lg text-sm">
-              <AlertCircle className="w-5 h-5 mr-2 flex-shrink-0" />
-              {uploadError}
-            </div>
-          )}
+                <span
+                  className={cn(
+                    'flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br text-xs font-semibold text-white',
+                    s.avatarColor
+                  )}
+                >
+                  {s.name.split(' ').map((n) => n[0]).join('')}
+                </span>
+                <span className="pr-1 text-left">
+                  <span className="block text-[13px] font-semibold leading-tight">{s.name}</span>
+                  <span className={cn('block text-[11px] leading-tight', active ? 'opacity-70' : 'text-text-secondary')}>
+                    {s.grade}
+                  </span>
+                </span>
+              </button>
+            )
+          })}
         </div>
+      </section>
+
+      {/* Details */}
+      <section className="space-y-3 rounded-3xl border border-border/70 bg-card p-5 shadow-sm">
+        <Field label="Exam name" value={examName} onChange={setExamName} placeholder="e.g. Science Practice Test 4" />
+        <div className="h-px bg-border/60" />
+        <Field label="Publisher" value={publisher} onChange={setPublisher} placeholder="e.g. Apotemi" />
+        <div className="h-px bg-border/60" />
+        <div className="flex items-center justify-between py-1">
+          <span className="text-[15px] font-medium">Date taken</span>
+          <span className="text-[15px] text-text-secondary">Jul 6, 2026</span>
+        </div>
+      </section>
+
+      {/* Source / attachment */}
+      <section className="space-y-3">
+        <p className="px-1 text-sm font-medium text-text-secondary">Answer sheet</p>
+
+        <AnimatePresence mode="wait">
+          {attached ? (
+            <motion.div
+              key="attached"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="flex items-center gap-4 rounded-3xl border border-border/70 bg-card p-4 shadow-sm"
+            >
+              <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500">
+                <Check className="h-7 w-7" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[15px] font-semibold">{attached}</p>
+                <p className="text-[13px] text-text-secondary">Ready to analyze · 2.4 MB</p>
+              </div>
+              <button
+                onClick={() => setAttached(null)}
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-secondary text-text-secondary"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="picker"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="grid gap-2.5"
+            >
+              {sources.map((src) => (
+                <button
+                  key={src.id}
+                  onClick={() => setAttached('answer-sheet.jpg')}
+                  className="flex items-center gap-4 rounded-2xl border border-dashed border-border bg-card p-4 text-left transition-colors active:bg-secondary/60"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-secondary">
+                    <src.icon className="h-5 w-5" />
+                  </span>
+                  <div className="flex-1">
+                    <p className="text-[15px] font-semibold">{src.label}</p>
+                    <p className="text-[13px] text-text-secondary">{src.hint}</p>
+                  </div>
+                  <ChevronRight className="h-5 w-5 text-text-secondary" />
+                </button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </section>
+
+      {/* CTA */}
+      <div className="sticky bottom-24 md:bottom-0">
+        <Button
+          size="lg"
+          className="w-full rounded-2xl"
+          disabled={!canAnalyze}
+          onClick={() => navigate('/processing/demo')}
+        >
+          Analyze exam
+        </Button>
       </div>
-    </div>
-  );
+    </motion.div>
+  )
+}
+
+function Field({
+  label, value, onChange, placeholder,
+}: {
+  label: string
+  value: string
+  onChange: (v: string) => void
+  placeholder?: string
+}) {
+  return (
+    <label className="flex items-center justify-between gap-4 py-1">
+      <span className="shrink-0 text-[15px] font-medium">{label}</span>
+      <input
+        value={value}
+        placeholder={placeholder}
+        onChange={(e) => onChange(e.target.value)}
+        className="min-w-0 flex-1 bg-transparent text-right text-[15px] text-text-primary placeholder:text-text-secondary/60 focus:outline-none"
+      />
+    </label>
+  )
 }

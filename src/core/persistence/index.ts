@@ -1,5 +1,7 @@
+import { Capacitor } from '@capacitor/core';
 import type { PersistenceProvider } from './types';
 import { LocalPersistenceProvider } from './LocalPersistenceProvider';
+import { SwiftDataPersistenceProvider } from './SwiftDataPersistenceProvider';
 
 /**
  * Dependency Injection Container for Persistence
@@ -9,9 +11,11 @@ export class PersistenceRegistry {
 
   static getProvider(): PersistenceProvider {
     if (!this.instance) {
-      // Default to LocalStorage for now. 
-      // In the future, this can be swapped with SwiftDataPersistenceProvider
-      this.instance = new LocalPersistenceProvider();
+      if (Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'ios') {
+        this.instance = new SwiftDataPersistenceProvider();
+      } else {
+        this.instance = new LocalPersistenceProvider();
+      }
       this.instance.initialize();
     }
     return this.instance;

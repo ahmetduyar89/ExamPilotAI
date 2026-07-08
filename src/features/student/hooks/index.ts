@@ -24,7 +24,7 @@ export function useStudent(id: string) {
 
 export function useCreateStudent() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (data: CreateStudentDTO) => studentRepo.create(data),
     onSuccess: () => {
@@ -35,7 +35,7 @@ export function useCreateStudent() {
 
 export function useUpdateStudent() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: UpdateStudentDTO }) => studentRepo.update(id, data),
     onSuccess: (data) => {
@@ -47,7 +47,7 @@ export function useUpdateStudent() {
 
 export function useDeleteStudent() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (id: string) => studentRepo.delete(id),
     onSuccess: () => {

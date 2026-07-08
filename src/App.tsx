@@ -16,6 +16,7 @@ import Profile from '@/pages/Profile'
 import Settings from '@/pages/Settings'
 import Processing from '@/pages/Processing'
 import Inspector from '@/pages/Inspector'
+import Premium from '@/pages/Premium'
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />
+  },
+  {
+    path: '/premium',
+    element: <Premium />
   },
   {
     path: '/register',
