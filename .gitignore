@@ -26,7 +26,6 @@ dist-ssr
 *.bak
 src_bak/
 temp_repo/
-ExamPilotAI/
 test-tsc/
 trace/
 test.json
